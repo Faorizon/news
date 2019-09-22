@@ -7,29 +7,27 @@
       <span class="iconfont iconnew"></span>
     </div>
     <!-- 用户名输入框 -->
-    <div class='inputs'>
-      <AuthInput 
-      placeholder="手机号/用户名" 
-      :value="form.username" 
-      @input="handleUsername"
-      :rule="/^1[0-9]{4,10}$/"
-      err_message="手机号码格式不正确"
+    <div class="inputs">
+      <AuthInput
+        placeholder="手机号/用户名"
+        :value="form.username"
+        @input="handleUsername"
+        :rule="/^1[0-9]{4,10}$/"
+        err_message="手机号码格式不正确"
       ></AuthInput>
     </div>
 
     <!-- 用户密码输入框 -->
-    <div class='inputs'>
-      <AuthInput 
-      placeholder="密码" 
-      v-model="form.password" 
-      
-      :rule="/^[0-9a-zA-Z]{3,12}$/"
-      err_message="密码格式不正确"
+    <div class="inputs">
+      <AuthInput
+        placeholder="密码"
+        v-model="form.password"
+        :rule="/^[0-9a-zA-Z]{3,12}$/"
+        err_message="密码格式不正确"
       ></AuthInput>
     </div>
     <!-- 按钮组件 -->
-    <AuthButton text="登录" @click="handleSubmit"/>
-
+    <AuthButton text="登录" @click="handleSubmit" />
   </div>
 </template>
 
@@ -60,17 +58,24 @@ export default {
   methods: {
     handleUsername(value) {
       this.form.username = value;
-    //   console.log(this.form.username)
+      //   console.log(this.form.username)
     },
     //登录按钮提交事件
-    handleSubmit(){
+    handleSubmit() {
       this.$axios({
-        url:'http://localhost:3000/login',
-        method:'Post',//相当于ajax中的type
-        data:this.form
-      }).then(res=>{
-        console.log(res)
-      })
+        url: "/login",
+        method: "Post", //相当于ajax中的type
+        data: this.form
+      }).then(res => {
+        // console.log(res)
+        const { message } = res.data;
+        if (message == "登录成功") {
+          this.$router.push("/");
+        }else{
+          this.$toast.fail(message)
+          // console.log(message)
+        }
+      });
     }
   }
 };
@@ -94,8 +99,8 @@ export default {
       color: #d81e06;
     }
   }
-  .inputs{
-    input{
+  .inputs {
+    input {
       margin-bottom: 20px;
     }
   }

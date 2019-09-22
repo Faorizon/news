@@ -12,7 +12,8 @@ Vue.use(VueRouter);
 
 //2.创建路由配置
 const routes=[
-    {path:'/login',component:Login}
+    {path:'/login',component:Login},
+    {path:'/',component:Login}
 ]
 //3.创建对象
 const router=new VueRouter({

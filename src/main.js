@@ -6,6 +6,8 @@ import Vue from "vue"
 import VueRouter from 'vue-router'
 //导入 vant-ui组件
 import Vant from 'vant'
+//导入axios挂载到原型
+import axios from 'axios'
 
 //导入组件
 import App from "@/App"
@@ -15,6 +17,9 @@ import Login from "@/pages/Login"
 Vue.use(VueRouter);
 //注册 Vant
 Vue.use(Vant)
+
+//把 axios 挂载到原型
+Vue.prototype.$axios=axios;
 
 //2.创建路由配置
 const routes=[

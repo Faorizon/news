@@ -60,8 +60,9 @@ export default {
       this.form.username = value;
     //   console.log(this.form.username)
     },
+    //登录按钮提交事件
     handleSubmit(){
-      
+
     }
   }
 };

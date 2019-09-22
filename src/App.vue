@@ -19,6 +19,9 @@ export default {
 /* 组件样式，会污染全局 */
     /* 引入字体图标文件 */
     @import url('http://at.alicdn.com/t/font_1426139_h6vn3jbl5q.css');
+    /* 引入提示样式框 */
+    @import url('../node_modules/vant/lib/index.css');
+
     /* 公共样式 */
     *{
         margin: 0;

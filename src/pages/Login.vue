@@ -6,20 +6,30 @@
     <div class="logo">
       <span class="iconfont iconnew"></span>
     </div>
-    <!-- 用户输入框 -->
-    <div>
+    <!-- 用户名输入框 -->
+    <div class='inputs'>
       <AuthInput 
-      placeholder="手机号" 
+      placeholder="手机号/用户名" 
       :value="form.username" 
       @input="handleUsername"
       :rule="/^1[0-9]{4,10}$/"
       err_message="手机号码格式不正确"
       ></AuthInput>
     </div>
-    <div>
-      <AuthInput />
+
+    <!-- 用户密码输入框 -->
+    <div class='inputs'>
+      <AuthInput 
+      placeholder="密码" 
+      v-model="form.password" 
+      
+      :rule="/^[0-9a-zA-Z]{3,12}$/"
+      err_message="密码格式不正确"
+      ></AuthInput>
     </div>
-    <button>登录</button>
+    <!-- 按钮组件 -->
+    <AuthButton text="登录" @click="handleSubmit"/>
+
   </div>
 </template>
 
@@ -27,6 +37,8 @@
 <script>
 //导入输入框组件
 import AuthInput from "@/components/AuthInput";
+//导入按钮组件
+import AuthButton from "@/components/AuthButton";
 
 export default {
   data() {
@@ -40,12 +52,16 @@ export default {
   },
   //注册组件
   components: {
-    AuthInput
+    AuthInput,
+    AuthButton
   },
   methods: {
     handleUsername(value) {
       this.form.username = value;
     //   console.log(this.form.username)
+    },
+    handleSubmit(){
+      
     }
   }
 };
@@ -67,6 +83,11 @@ export default {
     span {
       font-size: 126/360 * 100vw;
       color: #d81e06;
+    }
+  }
+  .inputs{
+    input{
+      margin-bottom: 20px;
     }
   }
 }

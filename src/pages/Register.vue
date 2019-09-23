@@ -6,7 +6,7 @@
     <div class="logo">
       <span class="iconfont iconnew"></span>
     </div>
-    <!-- 用户名输入框 -->
+    <!-- 用户名或电话输入框 -->
     <div class="inputs">
       <AuthInput
         placeholder="手机号/用户名"
@@ -14,6 +14,16 @@
         @input="handleUsername"
         :rule="/^1[0-9]{4,10}$/"
         err_message="手机号码格式不正确"
+      ></AuthInput>
+    </div>
+
+    <!-- 用户昵称 -->
+    <div class="inputs">
+      <AuthInput
+        placeholder="昵称"
+        v-model="form.nickname"
+        :rule="/^[0-9a-zA-Z\u4e00-\u9fa5]{2,10}$/"
+        err_message="昵称格式不正确"
       ></AuthInput>
     </div>
 
@@ -29,11 +39,11 @@
     </div>
     <!-- 注册与登录的跳转 -->
     <p class="tips">
-      没有账号？
-      <router-link to='/register'>去注册</router-link>
+      有账号？
+      <router-link to='/login'>去登录</router-link>
     </p>
     <!-- 按钮组件 -->
-    <AuthButton text="登录" @click="handleSubmit" />
+    <AuthButton text="注册" @click="handleSubmit" />
   </div>
 </template>
 
@@ -52,7 +62,8 @@ export default {
       //   list: []
       form: {
         username: "",
-        password: ""
+        password: "",
+        nickname:""
       }
     };
   },
@@ -69,14 +80,14 @@ export default {
     //登录按钮提交事件
     handleSubmit() {
       this.$axios({
-        url: "/login",
+        url: "/register",
         method: "POST", //相当于ajax中的type
         data: this.form
       }).then(res => {
         // console.log(res)
         const { message } = res.data;
-        if (message == "登录成功") {
-          this.$router.push("/");
+        if (message == "注册成功") {
+          this.$router.push("/login");
         }else{
           this.$toast.fail(message)
           // console.log(message)

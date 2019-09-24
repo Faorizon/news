@@ -42,7 +42,7 @@ const router=new VueRouter({
 //固定的声明
 axios.interceptors.response.use(res=>{
     const {message,statusCode}=res.data;
-    if(statusCode==401){
+    if(message && statusCode==401){
         Toast.fail(message);
     }
     return res

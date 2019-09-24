@@ -76,7 +76,7 @@ export default {
         // console.log(res)
         const { message } = res.data;
         if (message == "登录成功") {
-          this.$router.push("/");
+          this.$router.push("/personal");
         }else{
           this.$toast.fail(message)
           // console.log(message)

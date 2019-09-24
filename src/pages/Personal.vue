@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="profile">
-            <img src="http://img1.imgtn.bdimg.com/it/u=2357912857,682090914&fm=26&gp=0.jpg" alt="">
+            <img :src="profile.head_img" alt="">
             <div class="profile-center">
                 <div class="name">
                     <span class="iconfont iconxingbienan"></span>
@@ -24,6 +24,11 @@
 //导入条形组件
 import CellBar from "@/components/CellBar"
 export default {
+    data(){
+        return {
+            profile:{}
+        }
+    },
     components:{
         CellBar
     },
@@ -37,7 +42,16 @@ export default {
                 Authorization: localStorage.getItem("token")
             }
         }).then(res=>{
-            console.log(res)
+            // console.log(res)
+            const {data} = res.data;
+            //保存到data
+            this.profile=data
+            if(data.head_img){
+                this.profile.head_img=this.$axios.defaults.baseURL+profile.head_img;
+                
+            }else{
+                this.profile.head_img='./static/default_green.jpg'
+            }
         })
     }
     

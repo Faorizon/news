@@ -1,6 +1,6 @@
 <template>
   <div class="cell-wrap">
-      <div class="cell">
+      <div class="cell" @click="handleOut">
           <span>{{label}}</span>
           <i>{{text}}</i>
           <span class="iconfont iconjiantou1"></span>
@@ -10,7 +10,12 @@
 
 <script>
 export default {
-    props:["label","text"]
+    props:["label","text"],
+    methods:{
+        handleOut(){
+            this.$emit('click')
+        }
+    }
 }
 </script>
 

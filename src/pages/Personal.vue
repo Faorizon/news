@@ -16,7 +16,7 @@
         <CellBar label="我的关注" text="我的用户"></CellBar>
         <CellBar label="我的跟帖" text="跟帖/回复"></CellBar>
         <CellBar label="我的跟帖" text="文章/视频"></CellBar>
-        <CellBar label="我的关注"></CellBar>
+        <CellBar label="退出" @click="handleLogout"></CellBar>
     </div>  
 </template>
 
@@ -31,6 +31,17 @@ export default {
     },
     components:{
         CellBar
+    },
+    methods:{
+        //退出登录，就是将本地token和id清楚
+        handleLogout(){
+            console.log(123)
+            localStorage.removeItem("token")
+            localStorage.removeItem("user_id")
+
+            //替换上一个页面
+            this.$router.replace("/login")
+        }
     },
     mounted(){
         //请求个人资料接口
@@ -47,7 +58,7 @@ export default {
             //保存到data
             this.profile=data
             if(data.head_img){
-                this.profile.head_img=this.$axios.defaults.baseURL+profile.head_img;
+                this.profile.head_img=this.$axios.defaults.baseURL+data.head_img;
                 
             }else{
                 this.profile.head_img='./static/default_green.jpg'

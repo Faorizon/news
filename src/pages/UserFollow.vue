@@ -12,7 +12,7 @@
                 <p>{{item.nickname}}</p>
                 <span>2019-9-25</span>
             </div>
-            <span class="cancel">取消关注</span>
+            <span class="cancel" @click="handleCancel(index)">取消关注</span>
         </div>
     </div>
 </template>
@@ -28,6 +28,26 @@ export default {
     },
     components:{
         HeaderNormal
+    },
+    methods:{
+        handleCancel(index){
+            //获取要取消关注用户的id
+            const id=this.list[index].id;
+            this.$axios({
+                url:"/user_unfollow/"+id,
+                //添加头信息
+                headers:{
+                    Authorization:localStorage.getItem("token")
+                },
+            }).then(res=>{
+                const {message}=res.data;
+                if(message==="取消关注成功"){
+                    this.list.splice(index,1);
+                    //提示用户删除成功
+                    this.$toast.success(message);
+                }
+            })
+        }
     },
     mounted(){
         //请求用户关注的列表

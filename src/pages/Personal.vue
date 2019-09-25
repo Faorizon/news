@@ -19,8 +19,10 @@
             <CellBar label="我的关注" text="我的用户"></CellBar>
         </router-link>
         
-        <CellBar label="我的跟帖" text="跟帖/回复"></CellBar>
-        <CellBar label="我的跟帖" text="文章/视频"></CellBar>
+        <router-link to='user_comment'>
+            <CellBar label="我的跟帖" text="跟帖/回复"></CellBar>
+        </router-link>
+        <CellBar label="我的收藏" text="文章/视频"></CellBar>
         <CellBar label="退出" @click="handleLogout"></CellBar>
     </div>  
 </template>

@@ -3,27 +3,31 @@
       <HeaderNormal title="我的跟帖"/>
 
       <!-- 品论列表 -->
-      <div class="comment-item">
+      <div 
+      class="comment-item"
+      v-for="(item,index) in list"
+      :key="index"
+      >
         <div class="time">2019-9-25</div>
 
           <!-- 当前的品论回复的品论 -->
-          <div class="parent">
+          <div class="parent" v-if="item.parent">
               <div class="parent-title">
-                @:彩票研究员
+                @:{{item.parent.user.nickname}}
               </div>
-              <div class="parent-title">
-                今天买什么码？
+              <div class="parent-content">
+                {{item.parent.user.content}}
               </div>
           </div>
 
           <!-- 个人评论的内容 -->
           <div class="content">
-            不知道
+            {{item.content}}
           </div>
 
           <div class="article-link">
             <router-link to="#">
-              原文：今天买什么码？今天买什么码？今天买什么码？今天买什么码？今天买什么码？今天买什么码？今天买什么码？
+              原文：{{item.post.title}}
             </router-link>
             <span class="iconfont iconjiantou1"></span>
           </div>
@@ -34,8 +38,24 @@
 <script>
 import HeaderNormal from "@/components/HeaderNormal"
 export default {
+    data(){
+      return{
+        list:[]
+      }
+    },
     components:{
       HeaderNormal
+    },
+    mounted(){
+      this.$axios({
+        url:"/user_comments",
+        headers:{
+          Authorization:localStorage.getItem('token')
+        }
+      }).then(res=>{
+        const {data}=res.data;
+        this.list=data;
+      })
     }
 }
 </script>

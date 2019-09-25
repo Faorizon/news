@@ -8,7 +8,19 @@
           <van-uploader :after-read="afterRead" class="uploader"/>
       </div>
       <!-- 调用条形组件 -->
-      <CellBar label="昵称" :text="profile.nickname"/>
+
+      <CellBar label="昵称" :text="profile.nickname" @click="show1 = !show1"/>
+      <!-- 编辑昵称的输入框 -->
+      <van-dialog
+            v-model="show1"
+            title="编辑昵称"
+            show-cancel-button
+            @confirm="handleNickname"
+            >
+            <!-- 读取value昵称 -->
+            <van-field :value="profile.nickname" placeholder="请输入用户名" ref="nickname"/>
+      </van-dialog>
+
       <CellBar label="密码" text="profile.password" type="password"/>
       <CellBar label="性别" :text="profile.gender===1 ? '男' : '女'"/>
   </div>
@@ -21,7 +33,9 @@ export default {
     data(){
         return{
             //用户详情
-            profile:{}
+            profile:{},
+            //昵称弹窗
+            show1:false,
         }
     },
     components:{
@@ -65,6 +79,33 @@ export default {
                         this.$toast.success(message);
                     }
                 })
+            })
+        },
+        handleNickname(){
+            
+            //获取input输入框的值
+            const value=this.$refs.nickname.$refs.input.value;
+            // console.log(value)
+            //提交到编辑资料的接口
+            this.$axios({
+                url:'/user_update/'+localStorage.getItem('user_id'),
+                method:'post',
+                //添加头信息
+                headers:{
+                    Authorization:localStorage.getItem("token")
+                },
+                data:{
+                    nickname:value
+                }
+            }).then(res=>{
+                const {message} = res.data;
+                //成功的弹框提示
+                if(message==='修改成功'){
+                    //刷新或者说替换掉页面的昵称
+                    this.profile.nickname=value;
+                    
+                    this.$toast.success(message);
+                }
             })
         }
     },

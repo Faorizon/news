@@ -43,11 +43,28 @@ export default {
                 },
                 data:formData
             }).then(res=>{
-                console.log(res)
+                // console.log(res)
                 const {data} = res.data;
                 //替换用户头像
                 this.profile.head_img=this.$axios.defaults.baseURL+data.url
-                console.log(this.profile.head_img)
+                // console.log(this.profile.head_img)
+                this.$axios({
+                    url:'/user_update/'+localStorage.getItem('user_id'),
+                    method:'POST',
+                    //添加头信息
+                    headers:{
+                        Authorization:localStorage.getItem("token")
+                    },
+                    data:{
+                        head_img:data.url
+                    }
+                }).then(res=>{
+                    const {message} = res.data;
+                    //成功的弹框提示
+                    if(message==='修改成功'){
+                        this.$toast.success(message);
+                    }
+                })
             })
         }
     },

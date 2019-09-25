@@ -2,7 +2,8 @@
   <div class="cell-wrap">
       <div class="cell" @click="handleOut">
           <span>{{label}}</span>
-          <i>{{text}}</i>
+          <!-- 如果type等于password，显示*号 -->
+          <i>{{type === "password" ? '******' : text}}</i>
           <span class="iconfont iconjiantou1"></span>
       </div>
   </div>
@@ -10,7 +11,7 @@
 
 <script>
 export default {
-    props:["label","text"],
+    props:["label","text","type"],
     methods:{
         handleOut(){
             this.$emit('click')

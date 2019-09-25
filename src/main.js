@@ -17,6 +17,7 @@ import Login from "@/pages/Login"
 import Register from "@/pages/Register"
 import Personal from "@/pages/Personal"
 import EditProfile from "@/pages/EditProfile"
+import UserFollow from "@/pages/UserFollow"
 
 //在.vue文件中要使用router-link或者router-view需要注册下插件
 Vue.use(VueRouter);
@@ -34,7 +35,8 @@ const routes=[
     {path:'/login',component:Login},   
     {path:'/register',component:Register},
     {path:'/personal',component:Personal},
-    {path:'/edit_profile',component:EditProfile}
+    {path:'/edit_profile',component:EditProfile},
+    {path:'/user_follow',component:UserFollow}
 ]
 //3.创建对象
 const router=new VueRouter({

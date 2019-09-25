@@ -15,7 +15,10 @@
                 <span class="iconfont iconjiantou1"></span>
             </div>
         </router-link>
-        <CellBar label="我的关注" text="我的用户"></CellBar>
+        <router-link to='user_follow'>
+            <CellBar label="我的关注" text="我的用户"></CellBar>
+        </router-link>
+        
         <CellBar label="我的跟帖" text="跟帖/回复"></CellBar>
         <CellBar label="我的跟帖" text="文章/视频"></CellBar>
         <CellBar label="退出" @click="handleLogout"></CellBar>

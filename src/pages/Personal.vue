@@ -1,18 +1,20 @@
 <template>
     <div>
-        <div class="profile">
-            <img :src="profile.head_img" alt="">
-            <div class="profile-center">
-                <div class="name">
-                    <span class="iconfont iconxingbienan"></span>
-                    火星网友
+        <router-link to='edit_profile'>
+            <div class="profile">
+                <img :src="profile.head_img" alt="">
+                <div class="profile-center">
+                    <div class="name">
+                        <span class="iconfont iconxingbienan"></span>
+                        火星网友
+                    </div>
+                    <div class="time">
+                        2019-9-24
+                    </div>
                 </div>
-                <div class="time">
-                    2019-9-24
-                </div>
+                <span class="iconfont iconjiantou1"></span>
             </div>
-            <span class="iconfont iconjiantou1"></span>
-        </div>
+        </router-link>
         <CellBar label="我的关注" text="我的用户"></CellBar>
         <CellBar label="我的跟帖" text="跟帖/回复"></CellBar>
         <CellBar label="我的跟帖" text="文章/视频"></CellBar>

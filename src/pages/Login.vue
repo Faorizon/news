@@ -74,16 +74,13 @@ export default {
         method: "POST", //相当于ajax中的type
         data: this.form
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         const { message,data} = res.data;
         if (message == "登录成功") {
           //把token和id保存到本地
           localStorage.setItem("token",data.token)
           localStorage.setItem("user_id",data.user.id)
           this.$router.push("/personal");
-        }else{
-          // this.$toast.fail(message)
-          // console.log(message)
         }
       });
     }

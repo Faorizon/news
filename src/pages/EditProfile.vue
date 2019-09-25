@@ -3,7 +3,9 @@
       <headerNormal title="编辑资料"></headerNormal>
       <!-- 头像 -->
       <div class="head">
-          <img src="../../static/default_green.jpg" alt="">
+          <img :src="profile.head_img" alt="">
+          <!-- vant上传文件组件 -->
+          <van-uploader :after-read="afterRead" class="uploader"/>
       </div>
       <!-- 调用条形组件 -->
       <CellBar label="昵称" :text="profile.nickname"/>
@@ -26,6 +28,30 @@ export default {
         HeaderNormal,
         CellBar
     },
+    methods:{
+        afterRead(file){
+            //构造表单数据
+            const formData=new FormData();
+            // console.log(file)
+            formData.append('file',file.file);
+            this.$axios({
+                url:"/upload",
+                method:"POST",
+                //添加头信息
+                headers:{
+                    Authorization:localStorage.getItem("token")
+                },
+                data:formData
+            }).then(res=>{
+                console.log(res)
+                const {data} = res.data;
+                //替换用户头像
+                this.profile.head_img=this.$axios.defaults.baseURL+data.url
+                console.log(this.profile.head_img)
+            })
+        }
+    },
+    
     mounted(){
         //请求个人资料接口
         this.$axios({
@@ -58,12 +84,22 @@ export default {
         justify-content: center;
         align-items: center;
         padding: 20px;
+        position: relative;
+        .uploader{
+            position: absolute;
+            opacity: 0;
+        }
 
         img{
             display: block;
             width: 100/360*100vw;
             height: 100/360*100vw;
             border-radius: 50%;
+        }
+        //修改第三方库的样式，需要在前面加上 /deep/
+        /deep/.van-uploader__upload{
+            width:100/360*100vw;
+            height: 110/360*100vw;
         }
     }
 </style>

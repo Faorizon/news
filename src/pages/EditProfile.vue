@@ -138,7 +138,12 @@ export default {
             })
         },
         handleGender(){
-            console.log()
+            //把性别转换成数字
+            const gender=+this.genderCache;
+            //编辑性别
+            this.editProfile({gender},()=>{
+                this.profile.gender=gender
+            })
         }
     },
     

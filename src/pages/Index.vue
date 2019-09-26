@@ -13,13 +13,23 @@
         </div>
         <van-tabs v-model="active" sticky swipeable>
             <van-tab v-for="(item,index) in categories" :title="item.name" :key="index">
+                <!-- 使用文章分页模块 -->
+                <!-- v-model:列表是否在加载 -->
+                <!-- finished:是否加载完毕 -->
+                <!-- load：到底部触发事件 -->
+                <van-list 
+                    v-model="loading"
+                    :finished="finished"
+                    finished-text="没有更多了"
+                    @load="onLoad"
+                >
                     <!-- 循环文章模板 -->
                     <PostCard
                     v-for="(item,index) in posts"
                     :key="index"
                     :post="item"
                     />
-                
+                </van-list>
             </van-tab>
         </van-tabs>
     </div>
@@ -40,7 +50,11 @@ export default {
             cid:999,
 
             //默认头条文章列表
-            posts:[]
+            posts:[],
+            //是否在加载，加载完毕后需要手动变为false
+            loading:false,
+            //是否有更多数据，如果加载完所有的数据，改为true
+            finished:false
         }
     },
     watch:{
@@ -52,15 +66,16 @@ export default {
     components:{
         PostCard
     },
+    methods:{
+        onLoad(){
+            setTimeout(()=>{
+                console.log("已经滚动到底部")
+                this.loading=false;
+                this.finished=true;
+            },4000)
+        }
+    },
     mounted(){
-        // //获取所有栏目数据
-        // this.$axios({
-        //     url:'/category',
-        // }).then(res=>{
-        //     // console.log(res)
-        //     const {data} =res.data;
-        //     this.categories=data
-        // })
         const config={
             url:"/category",
         }
@@ -76,7 +91,7 @@ export default {
         })
         //请求文章列表
         this.$axios({
-            url:`/post?pageIndex=1&pageSize=11&category=${this.cid}`
+            url:`/post?pageIndex=1&pageSize=5&category=${this.cid}`
         }).then(res=>{
             const {data} =res.data
             // console.log(data)

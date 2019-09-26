@@ -12,7 +12,7 @@
             </router-link>
         </div>
         <van-tabs v-model="active" sticky swipeable>
-            <van-tab v-for="index in 4" :title="'标签' + index">
+            <van-tab v-for="(item,index) in categories" :title="item.name" :key="index">
                 <p v-for="index in 10">
                     <PostCard/>
                 </p>
@@ -27,11 +27,37 @@ import PostCard from "@/components/PostCard"
 export default {
     data(){
         return{
-            active:1
+            // active:1,
+            //当前默认栏目，没有登录应该0，有登录1，也就是默认头条
+            active:localStorage.getItem("token") ? 1:0,
+            //栏目列表数据
+            categories:[]
         }
     },
     components:{
         PostCard
+    },
+    mounted(){
+        // //获取所有栏目数据
+        // this.$axios({
+        //     url:'/category',
+        // }).then(res=>{
+        //     // console.log(res)
+        //     const {data} =res.data;
+        //     this.categories=data
+        // })
+        const config={
+            url:"/category",
+        }
+        if(localStorage.getItem('token')){
+            config.headers={
+                Authorization:localStorage.getItem("token")
+            }
+        }
+        this.$axios(config).then(res=>{
+            const {data} =res.data;
+            this.categories=data
+        })
     }
 
 }

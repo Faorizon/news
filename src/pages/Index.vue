@@ -76,10 +76,10 @@ export default {
         })
         //请求文章列表
         this.$axios({
-            url:`/post?pageIndex=1&pageSize=5&category=${this.cid}`
+            url:`/post?pageIndex=1&pageSize=11&category=${this.cid}`
         }).then(res=>{
             const {data} =res.data
-            // console.log(data)
+            console.log(data)
             this.posts=data
         })
     }

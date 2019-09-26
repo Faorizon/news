@@ -79,7 +79,7 @@ export default {
             url:`/post?pageIndex=1&pageSize=11&category=${this.cid}`
         }).then(res=>{
             const {data} =res.data
-            console.log(data)
+            // console.log(data)
             this.posts=data
         })
     }

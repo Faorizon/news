@@ -11,20 +11,27 @@
                 <span class="iconfont iconwode personal"></span>
             </router-link>
         </div>
-        <van-tabs v-model="active" sticky>
+        <van-tabs v-model="active" sticky swipeable>
             <van-tab v-for="index in 4" :title="'标签' + index">
-                <p v-for="index in 100">内容 {{index}}</p>
+                <p v-for="index in 10">
+                    <PostCard/>
+                </p>
             </van-tab>
         </van-tabs>
     </div>
 </template>
 
 <script>
+//引入文章列表模块
+import PostCard from "@/components/PostCard"
 export default {
     data(){
         return{
             active:1
         }
+    },
+    components:{
+        PostCard
     }
 
 }
@@ -62,6 +69,13 @@ export default {
                 margin-left: 5px;
             }
         }
+    }
+    /deep/.van-tabs__nav{
+        background-color: #f6f6f6;
+    }
+    /deep/.van-tabs__line{
+        width:40px;
+        height: 1px;
     }
 
 </style>

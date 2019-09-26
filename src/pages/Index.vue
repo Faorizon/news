@@ -11,11 +11,21 @@
                 <span class="iconfont iconwode personal"></span>
             </router-link>
         </div>
+        <van-tabs v-model="active" sticky>
+            <van-tab v-for="index in 4" :title="'标签' + index">
+                <p v-for="index in 100">内容 {{index}}</p>
+            </van-tab>
+        </van-tabs>
     </div>
 </template>
 
 <script>
 export default {
+    data(){
+        return{
+            active:1
+        }
+    }
 
 }
 </script>

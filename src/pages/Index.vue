@@ -13,9 +13,13 @@
         </div>
         <van-tabs v-model="active" sticky swipeable>
             <van-tab v-for="(item,index) in categories" :title="item.name" :key="index">
-                <p v-for="index in 10">
-                    <PostCard/>
-                </p>
+                    <!-- 循环文章模板 -->
+                    <PostCard
+                    v-for="(item,index) in posts"
+                    :key="index"
+                    :post="item"
+                    />
+                
             </van-tab>
         </van-tabs>
     </div>
@@ -33,13 +37,16 @@ export default {
             //栏目列表数据
             categories:[],
             //栏目id
-            cid:999
+            cid:999,
+
+            //默认头条文章列表
+            posts:[]
         }
     },
     watch:{
         active(){
             this.cid=this.categories[this.active].id;
-            console.log(this.cid)
+            // console.log(this.cid)
         }
     },
     components:{
@@ -66,6 +73,14 @@ export default {
             // console.log(res)
             const {data} =res.data;
             this.categories=data
+        })
+        //请求文章列表
+        this.$axios({
+            url:`/post?pageIndex=1&pageSize=5&category=${this.cid}`
+        }).then(res=>{
+            const {data} =res.data
+            // console.log(data)
+            this.posts=data
         })
     }
 

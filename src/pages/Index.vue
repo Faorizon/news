@@ -22,6 +22,7 @@
                     :finished="finished"
                     finished-text="没有更多了"
                     @load="onLoad"
+                    :immediate-check="false"
                 >
                     <!-- 循环文章模板 -->
                     <PostCard
@@ -54,7 +55,12 @@ export default {
             //是否在加载，加载完毕后需要手动变为false
             loading:false,
             //是否有更多数据，如果加载完所有的数据，改为true
-            finished:false
+            finished:false,
+
+            //分页变量
+            pageIndex:1,
+            //每页加载信息的条数
+            pageSize:5
         }
     },
     watch:{
@@ -69,9 +75,22 @@ export default {
     methods:{
         onLoad(){
             setTimeout(()=>{
-                console.log("已经滚动到底部")
-                this.loading=false;
-                this.finished=true;
+                this.$axios({
+                    url:`/post?category=${this.cid}&pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+                }).then(res=>{
+                    // console.log(res)
+                    const {data} = res.data;
+                    // console.log(data)
+                    if(data.length<this.pageSize){
+                        this.finished=true;
+                    }
+                    this.posts=[...this.posts,...data]
+                    
+                    // 页数加一
+                    this.pageIndex++
+                    //告诉onLoad事件这次的数据加载已经完毕，下次可以继续的触发onload
+                    this.loading=false;
+                })
             },4000)
         }
     },

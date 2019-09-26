@@ -31,7 +31,15 @@ export default {
             //当前默认栏目，没有登录应该0，有登录1，也就是默认头条
             active:localStorage.getItem("token") ? 1:0,
             //栏目列表数据
-            categories:[]
+            categories:[],
+            //栏目id
+            cid:999
+        }
+    },
+    watch:{
+        active(){
+            this.cid=this.categories[this.active].id;
+            console.log(this.cid)
         }
     },
     components:{
@@ -55,6 +63,7 @@ export default {
             }
         }
         this.$axios(config).then(res=>{
+            // console.log(res)
             const {data} =res.data;
             this.categories=data
         })

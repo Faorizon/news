@@ -18,15 +18,15 @@
                 <!-- finished:是否加载完毕 -->
                 <!-- load：到底部触发事件 -->
                 <van-list 
-                    v-model="loading"
-                    :finished="finished"
+                    v-model="item.loading"
+                    :finished="item.finished"
                     finished-text="没有更多了"
                     @load="onLoad"
                     :immediate-check="false"
                 >
                     <!-- 循环文章模板 -->
                     <PostCard
-                    v-for="(item,index) in posts"
+                    v-for="(item,index) in item.posts"
                     :key="index"
                     :post="item"
                     />
@@ -51,11 +51,11 @@ export default {
             cid:999,
 
             //默认头条文章列表
-            posts:[],
+            // posts:[],
             //是否在加载，加载完毕后需要手动变为false
-            loading:false,
+            //loading:false,
             //是否有更多数据，如果加载完所有的数据，改为true
-            finished:false,
+            //finished:false,
 
             //分页变量
             pageIndex:1,
@@ -74,24 +74,24 @@ export default {
     },
     methods:{
         onLoad(){
-            setTimeout(()=>{
-                this.$axios({
-                    url:`/post?category=${this.cid}&pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
-                }).then(res=>{
-                    // console.log(res)
-                    const {data} = res.data;
-                    // console.log(data)
-                    if(data.length<this.pageSize){
-                        this.finished=true;
-                    }
-                    this.posts=[...this.posts,...data]
+            // setTimeout(()=>{
+            //     this.$axios({
+            //         url:`/post?category=${this.cid}&pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+            //     }).then(res=>{
+            //         // console.log(res)
+            //         const {data} = res.data;
+            //         // console.log(data)
+            //         if(data.length<this.pageSize){
+            //             this.finished=true;
+            //         }
+            //         this.categories[this.active]=[...this.posts,...data]
                     
-                    // 页数加一
-                    this.pageIndex++
-                    //告诉onLoad事件这次的数据加载已经完毕，下次可以继续的触发onload
-                    this.loading=false;
-                })
-            },4000)
+            //         // 页数加一
+            //         this.categories[this.active].pageIndex++
+            //         //告诉onLoad事件这次的数据加载已经完毕，下次可以继续的触发onload
+            //         this.loading=false;
+            //     })
+            // },4000)
         }
     },
     mounted(){
@@ -118,14 +118,18 @@ export default {
             })
             //将带有四个独立属性的栏目列表存入categories
             this.categories=newData;
-        })
-        //请求文章列表
-        this.$axios({
-            url:`/post?pageIndex=1&pageSize=5&category=${this.cid}`
-        }).then(res=>{
-            const {data} =res.data
-            // console.log(data)
-            this.posts=data
+        
+            //请求文章列表
+            this.$axios({
+                url: `/post?category=${this.cid}&pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+            }).then(res=>{
+                const {data} =res.data
+                // 默认赋值给头条的列表
+                this.categories[this.active].posts = data;
+                // console.log(data)
+                this.categories[this.active].pageIndex++;
+                console.log(this.categories[this.active].posts)
+            })
         })
     }
 

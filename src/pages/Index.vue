@@ -67,6 +67,7 @@ export default {
         active(){
             this.cid=this.categories[this.active].id;
             // console.log(this.cid)
+            this.onLoad();
         }
     },
     components:{
@@ -74,24 +75,26 @@ export default {
     },
     methods:{
         onLoad(){
-            // setTimeout(()=>{
-            //     this.$axios({
-            //         url:`/post?category=${this.cid}&pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
-            //     }).then(res=>{
-            //         // console.log(res)
-            //         const {data} = res.data;
-            //         // console.log(data)
-            //         if(data.length<this.pageSize){
-            //             this.finished=true;
-            //         }
-            //         this.categories[this.active]=[...this.posts,...data]
+            setTimeout(()=>{
+                // console.log(123)
+                this.$axios({
+                    url:`/post?category=${this.categories[this.active].id}&pageIndex=${this.categories[this.active].pageIndex}&pageSize=${this.pageSize}`
+                }).then(res=>{
+                    // console.log(res)
+                    const {data} = res.data;
+                    // console.log(data)
+                    // console.log(data)
+                    if(data.length<this.pageSize){
+                        this.categories[this.active].finished=true;
+                    }
+                    this.categories[this.active].posts=[...this.categories[this.active].posts,...data]
                     
-            //         // 页数加一
-            //         this.categories[this.active].pageIndex++
-            //         //告诉onLoad事件这次的数据加载已经完毕，下次可以继续的触发onload
-            //         this.loading=false;
-            //     })
-            // },4000)
+                    // 页数加一
+                    this.categories[this.active].pageIndex++
+                    //告诉onLoad事件这次的数据加载已经完毕，下次可以继续的触发onload
+                    this.categories[this.active].loading=false;
+                })
+            },400)
         }
     },
     mounted(){
@@ -128,7 +131,7 @@ export default {
                 this.categories[this.active].posts = data;
                 // console.log(data)
                 this.categories[this.active].pageIndex++;
-                console.log(this.categories[this.active].posts)
+                // console.log(this.categories[this.active].posts)
             })
         })
     }

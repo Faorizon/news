@@ -27,14 +27,19 @@
                 微信
             </span>
         </div>
+        <!-- 页脚组件 -->
+        <PostFooter/>
     </div>
 </template>
 
 
 <script>
-    export default{
-
+import PostFooter from "@/components/PostFooter"
+export default{
+    components:{
+        PostFooter
     }
+}
 </script>
 
 <style lang="less" scoped>

@@ -8,14 +8,14 @@
                     <span class="iconfont iconnew"></span>
                 </div>
                 <span class="focus" v-if="!detail.has_follow" @click="handleFollow">关注</span>
-                <span class="focus focus_active" v-else>已关注</span>
+                <span class="focus focus_active" v-else @click="handleUnfollow">已关注</span>
             </div>
             <h3>{{detail.title}}</h3>
             <p class="post-info">{{detail.user.nickname}} 2019-10-10</p>
             <div class="post-conten" v-html="detail.content"></div>
         </div>
         <div class="post-btns">
-            <span>
+            <span @click="handleLike" :class="{like_active:detail.has_like}">
                 <i class="iconfont icondianzan"></i>
                 112
             </span>
@@ -47,7 +47,7 @@ export default{
     },
     methods:{
         handleFollow(){
-            console.log(123)
+            // console.log(123)
             //通过作者id关注用户
             this.$axios({
                 url:"/user_follows/"+this.detail.user.id,
@@ -57,8 +57,45 @@ export default{
                 }
             }).then(res=>{
                 const {message}=res.data;
-                console.log(res)
+                // console.log(res)
                 if(message==="关注成功"){
+                    //修改关注的按钮的状态
+                    this.detail.has_follow=true;
+                    this.$toast.success(message)
+                }
+            })
+        },
+        handleUnfollow(){
+            //通过作者id取消关注用户
+            this.$axios({
+                url:"/user_unfollow/"+this.detail.user.id,
+                //添加头信息
+                headers:{
+                    Authorization:localStorage.getItem("token")
+                }
+            }).then(res=>{
+                const {message}=res.data;
+                // console.log(res)
+                if(message==="点赞成功"){
+                    //修改点赞的按钮的状态
+                    this.detail.has_like=false;
+                    this.$toast.success(message)
+                }
+            })
+        },
+        //点赞
+        handleLike(){
+            
+            this.$axios({
+                url:"/post_like/"+this.detail.id,
+                //添加头信息
+                headers:{
+                    Authorization:localStorage.getItem("token")
+                }
+            }).then(res=>{
+                const {message}=res.data;
+                console.log(res)
+                if(message==="取消关注成功"){
                     //修改关注的按钮的状态
                     this.detail.has_follow=true;
                     this.$toast.success(message)
@@ -157,6 +194,12 @@ export default{
         }
         .iconweixin{
             color:#07c907;
+        }
+        .like_active{
+            border:1px red solid;
+            i{
+                color:red;
+            }
         }
     }
 </style>

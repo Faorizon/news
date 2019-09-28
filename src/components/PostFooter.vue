@@ -44,12 +44,14 @@ export default {
         border-top:1px #eee solid;
         padding: 0 10px;
         box-sizing: border-box;
+        background-color: #fff;
     }
     .footer-comment{
         padding: 10px 0;
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
+
         textarea{
             width: 260 / 360 * 100vw;
             background:#eee;

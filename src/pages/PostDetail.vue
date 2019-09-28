@@ -4,10 +4,10 @@
         <div class="article">
             <div class="header">
                 <div class="header-left">
-                    <span class="iconfont iconjiantou2"></span>
+                    <span class="iconfont iconjiantou2" @click="$router.back()"></span>
                     <span class="iconfont iconnew"></span>
                 </div>
-                <span class="focus" v-if="!detail.has_follow">关注</span>
+                <span class="focus" v-if="!detail.has_follow" @click="handleFollow">关注</span>
                 <span class="focus focus_active" v-else>已关注</span>
             </div>
             <h3>{{detail.title}}</h3>
@@ -44,6 +44,27 @@ export default{
     },
     components:{
         PostFooter
+    },
+    methods:{
+        handleFollow(){
+            console.log(123)
+            //通过作者id关注用户
+            this.$axios({
+                url:"/user_follows/"+this.detail.user.id,
+                //添加头信息
+                headers:{
+                    Authorization:localStorage.getItem("token")
+                }
+            }).then(res=>{
+                const {message}=res.data;
+                console.log(res)
+                if(message==="关注成功"){
+                    //修改关注的按钮的状态
+                    this.detail.has_follow=true;
+                    this.$toast.success(message)
+                }
+            })
+        }
     },
     mounted(){
         //请求文章的详情
@@ -114,13 +135,17 @@ export default{
             margin-bottom: 15px;
         }
         .post-content{
-            line-height: 1.5;
+            line-height: 1.5;         
+        }
+        /deep/img{
+            max-width: 100%;
         }
     }
     .post-btns{
         margin-top:30px;
         display: flex;
         justify-content: space-around;
+       
         span{
             padding:0 15px;
             height:30/360*100vw;

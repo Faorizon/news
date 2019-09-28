@@ -20,6 +20,7 @@ import EditProfile from "@/pages/EditProfile"
 import UserFollow from "@/pages/UserFollow"
 import UserComment from "@/pages/UserComment"
 import Index from "@/pages/Index"
+import PostDetail from "@/pages/PostDetail"
 
 //在.vue文件中要使用router-link或者router-view需要注册下插件
 Vue.use(VueRouter);
@@ -40,7 +41,8 @@ const routes=[
     {path:'/edit_profile',component:EditProfile},
     {path:'/user_follow',component:UserFollow},
     {path:'/user_comment',component:UserComment},
-    {path:'/index',component:Index}
+    {path:'/index',component:Index},
+    {path:'/post_detail/:id',component:PostDetail}
 ]
 //3.创建对象
 const router=new VueRouter({

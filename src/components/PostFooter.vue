@@ -4,10 +4,10 @@
         <div class="footer" v-show="!isFocus">
             <input type="text" placeholder="写跟帖" @focus="handleFocus">
             <span class="comment">
-                <em>1020</em>
+                <em>{{post.comment_length}}</em>
                 <i class="iconfont iconpinglun-"></i>
             </span>
-            <i class="iconfont iconshoucang"></i>
+            <i class="iconfont iconshoucang"  @click="$emit('handleStar')" :class="{star_active:post.has_star}"></i>
             <i class="iconfont iconfenxiang"></i>
         </div>
         <!-- 输入评论页脚，这里显示隐藏必须要使用v-show，原因是为了获得textarea的dom元素 -->
@@ -26,6 +26,7 @@ export default {
             isFocus:false
         }
     },
+    props:["post"],
     methods:{
         handleFocus(){
             this.isFocus=true;
@@ -105,7 +106,11 @@ export default {
             }
         }
         .iconfont{
-            font-size: 24px;
+            font-size: 24px;           
+        }
+        .star_active{
+            color:red;
         }
     }
+    
 </style>

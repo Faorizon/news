@@ -25,7 +25,7 @@
             </span>
         </div>
         <!-- 页脚组件 -->
-        <PostFooter/>
+        <PostFooter :post="detail" @handleStar="handleStar"/>
     </div>
 </template>
 
@@ -94,10 +94,27 @@ export default{
                 }
             }).then(res=>{
                 const {message}=res.data;
-                console.log(res)
+                // console.log(res)
                 if(message==="取消关注成功"){
                     //修改关注的按钮的状态
                     this.detail.has_follow=true;
+                    this.$toast.success(message)
+                }
+            })
+        },
+        handleStar(){
+            this.$axios({
+                url:"/post_star/"+this.detail.id,
+                //添加头信息
+                headers:{
+                    Authorization:localStorage.getItem("token")
+                }
+            }).then(res=>{
+                const {message}=res.data;
+                // console.log(res)
+                if(message==="收藏成功"){
+                    //修改关注的按钮的状态
+                    this.detail.has_star=true;
                     this.$toast.success(message)
                 }
             })
@@ -121,7 +138,7 @@ export default{
         this.$axios(config).then(res=>{
             const {data}=res.data
             this.detail=data
-            console.log()
+            // console.log()
         })
     }
 }
